@@ -43,12 +43,6 @@ class ProductAdmin(admin.ModelAdmin):
         updated_count = queryset.update(inventory=0)
         self.message_user(request, f'{updated_count} products were successfully updated.', messages.ERROR)
 
-
-@admin.register(models.Order)
-class OrderAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['customer']
-    list_display = ['id', 'placed_at', 'customer']
-
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name',  'membership', 'orders']
@@ -77,3 +71,16 @@ class CollectionAdmin(admin.ModelAdmin):
          
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(products_count=Count('product'))
+    
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    min_num = 1
+    max_num = 10
+    model = models.OrderItem
+    extra = 0
+
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
+    list_display = ['id', 'placed_at', 'customer']
