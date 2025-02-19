@@ -1,13 +1,18 @@
 from django.shortcuts import render
-from django.db.models import Value, F, Func, Count, ExpressionWrapper, DecimalField
-from django.db.models import Q, F
-from django.db.models.functions import Concat
-from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, OrderItem, Order, Customer
-from django.db.models.aggregates import Count, Sum, Avg, Max, Min
+from django.contrib.contenttypes.models import ContentType
+from store.models import Product
+from tags.models import TaggedItem
 
 def say_hello(request):
-    discounted_price = ExpressionWrapper(F('unit_price') * 0.8, output_field=DecimalField(max_digits=6, decimal_places=2))
-    queryset = Customer.objects.annotate(discounted_price=discounted_price)
+    # first need to fint the content type id for the product model
+    content_type = ContentType.objects.get_for_model(Product)
+
+    # next we can use the content type id to filter the tagged items
+    queryset = TaggedItem.objects \
+        .select_related('tag') \
+        .filter(
+            content_type=content_type, 
+            object_id=1
+        )
     
-    return render(request, 'hello.html', { 'name': 'mosh', 'result': list(queryset) })
+    return render(request, 'hello.html', { 'name': 'mosh', 'tags': list(queryset) })
