@@ -13,7 +13,7 @@ from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions, ViewCust
 from .pagination import DefaultPagination
 from .filters import ProductFilter
 from .models import Product, Collection, OrderItem, Review, Cart, CartItem, Customer, Order
-from .serializers import CartItemSerializer, CreateOrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer
+from .serializers import CartItemSerializer, CreateOrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer, UpdateOrderSerializer
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -95,7 +95,7 @@ class CustomerViewSet(ModelViewSet):
         
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'patch', 'delete', 'head', 'options']
-    
+
     def get_permissions(self):
         if self.request.method in ['PATCH', 'DELETE']:
             return [IsAdminUser()]
@@ -111,6 +111,8 @@ class OrderViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateOrderSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateOrderSerializer
         return OrderSerializer
 
     def get_queryset(self):
