@@ -172,3 +172,7 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 2525
 DEFAULT_FROM_EMAIL = 'ian.tung1013@gmail.com'
+
+ADMINS = [
+    ('Mosh', 'admin@moshbuy.com')
+]
