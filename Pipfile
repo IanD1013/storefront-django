@@ -15,8 +15,11 @@ djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
 django-templated-mail = "*"
+redis = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.11"
