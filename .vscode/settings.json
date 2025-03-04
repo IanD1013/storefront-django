@@ -1,3 +1,8 @@
 {
-    "python.pythonPath": "C:\\Users\\IanDong\\.virtualenvs\\storefront-A7t-_6e_\\Scripts\\python"
+    "python.pythonPath": "C:\\Users\\IanDong\\.virtualenvs\\storefront-A7t-_6e_\\Scripts\\python",
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
