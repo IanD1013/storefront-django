@@ -1,14 +1,12 @@
-from django.core.mail import EmailMessage, BadHeaderError
+from django.core.cache import cache
 from django.shortcuts import render
-from templated_mail.mail import BaseEmailMessage
+import requests
 
 def say_hello(request):
-    try:
-        message = BaseEmailMessage(
-            template_name='emails/hello.html',
-            context={'name': 'Mosh'},
-        )
-        message.send(['john@moshbuy.com'])
-    except BadHeaderError:
-        pass
-    return render(request, 'hello.html', {'name': 'Mosh'})
+    key = 'httpbin_result'
+    if cache.get(key) is None:
+        response = requests.get('https://httpbin.org/delay/2')
+        data = response.json()
+        cache.set(key, data, 10 * 60)
+    
+    return render(request, 'hello.html', {'name': cache.get(key)})
