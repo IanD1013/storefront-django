@@ -176,3 +176,14 @@ DEFAULT_FROM_EMAIL = 'ian.tung1013@gmail.com'
 ADMINS = [
     ('Mosh', 'admin@moshbuy.com')
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "TIMEOUT": 60 * 60,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
