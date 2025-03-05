@@ -199,6 +199,7 @@ LOGGING = {
         'file': {
             'class': 'logging.FileHandler',
             'filename': 'general.log',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
